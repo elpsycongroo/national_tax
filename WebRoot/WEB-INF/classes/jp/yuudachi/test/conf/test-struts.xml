@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+   
+    <!-- Add packages here -->
+    <package name="test-action" namespace="/" extends="struts-default">
+    	<action name="test_*" class="jp.yuudachi.test.action.TestAction" method="{1}">
+    		<result name="success">/WEB-INF/jsp/test/test.jsp</result>
+    	</action>
+    </package>
+	
+</struts>

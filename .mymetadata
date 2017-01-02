@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="national_tax"
+  id="myeclipse.1482800459515"
+  context-root="/national_tax"
+  j2ee-spec="6.0"
+  archive="national_tax.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
