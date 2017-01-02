@@ -15,6 +15,7 @@ public class UserAction extends ActionSupport {
 	private UserService userService;
 	private List<User> userList;
 	private User user;
+	private String[] selectedRow;
 	
 	//列表页面
 	public String listUI(){
@@ -44,7 +45,7 @@ public class UserAction extends ActionSupport {
 		if(user != null){
 			userService.update(user);
 		}
-		return editUI();
+		return "list";
 	}
 	//删除
 	public String delete(){
@@ -54,8 +55,12 @@ public class UserAction extends ActionSupport {
 		return "list";
 	}
 	//批量删除
-	public String deleteSeleted(){
-		//TODO
+	public String deleteSelected(){
+		if(selectedRow != null){
+			for(String id : selectedRow){
+				userService.delete(id);
+			}
+		}
 		return "list";
 	}
 	public UserService getUserService() {
@@ -75,5 +80,11 @@ public class UserAction extends ActionSupport {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String[] getSelectedRow() {
+		return selectedRow;
+	}
+	public void setSelectedRow(String[] selectedRow) {
+		this.selectedRow = selectedRow;
 	}
 }
