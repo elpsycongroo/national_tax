@@ -1,7 +1,7 @@
-##National-Tax
+#National-Tax
 
 An exercise-only java project.
-#IDE
+##IDE
 MyEclipse 10(Eclispe 3.7).
-#License
+##License
 Using MIT Lisence.
