@@ -1,7 +1,10 @@
 package jp.yuudachi.nsfw.user.service;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.servlet.ServletOutputStream;
 
 import jp.yuudachi.nsfw.user.entity.User;
 
@@ -20,4 +23,9 @@ public interface UserService {
 
 	// find list
 	public List<User> findObjects();
+	//导出用户列表
+	public void exportExcel(List<User> userList,
+			ServletOutputStream outputStream);
+	//导入用户列表
+	public void importExcel(File userExcel, String userExcelFileName);
 }
