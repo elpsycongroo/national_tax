@@ -12,6 +12,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import jp.yuudachi.nsfw.user.entity.User;
@@ -138,6 +139,28 @@ public class UserAction extends ActionSupport {
 			}
 		}
 		return "list";
+	}
+	public void verifyAccount(){
+		try {
+			//1.获取账号
+			if(user != null && StringUtils.isNotBlank(user.getAccount())){
+				//2.根据账号到数据库中校验是否存在该账号对应的用户
+				List<User> list = userService.findUserByAccountAndId(user.getId(),user.getAccount());
+				String strResult = "true";
+				if(list != null && list.size() > 0){
+					//存在同名账号
+					strResult = "false";
+				}
+				//输出
+				HttpServletResponse response = ServletActionContext.getResponse();
+				response.setContentType("text/html");
+				ServletOutputStream outputStream = response.getOutputStream();
+				outputStream.write(strResult.getBytes());
+				outputStream.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 	
 	public UserService getUserService() {
