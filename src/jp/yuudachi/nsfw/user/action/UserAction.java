@@ -12,20 +12,23 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
+import jp.yuudachi.core.action.BaseAction;
+import jp.yuudachi.core.exception.ActionException;
+import jp.yuudachi.core.exception.ServiceException;
 import jp.yuudachi.nsfw.user.entity.User;
 import jp.yuudachi.nsfw.user.service.UserService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class UserAction extends ActionSupport {
+public class UserAction extends BaseAction {
 	
 	@Resource
 	private UserService userService;
 	private List<User> userList;
 	private User user;
-	private String[] selectedRow;
 	private File headImg;
 	private String headImgContentType;
 	private String headImgFileName;
@@ -34,8 +37,12 @@ public class UserAction extends ActionSupport {
 	private String userExcelFileName;
 	
 	//列表页面
-	public String listUI(){
-		userList = userService.findObjects();
+	public String listUI() throws Exception{
+		try {
+			userList = userService.findObjects();
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 		return "listUI";
 	}
 	//跳转到新增页面
@@ -139,6 +146,28 @@ public class UserAction extends ActionSupport {
 		}
 		return "list";
 	}
+	public void verifyAccount(){
+		try {
+			//1.获取账号
+			if(user != null && StringUtils.isNotBlank(user.getAccount())){
+				//2.根据账号到数据库中校验是否存在该账号对应的用户
+				List<User> list = userService.findUserByAccountAndId(user.getId(),user.getAccount());
+				String strResult = "true";
+				if(list != null && list.size() > 0){
+					//存在同名账号
+					strResult = "false";
+				}
+				//输出
+				HttpServletResponse response = ServletActionContext.getResponse();
+				response.setContentType("text/html");
+				ServletOutputStream outputStream = response.getOutputStream();
+				outputStream.write(strResult.getBytes());
+				outputStream.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
 	
 	public UserService getUserService() {
 		return userService;
@@ -158,12 +187,7 @@ public class UserAction extends ActionSupport {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public String[] getSelectedRow() {
-		return selectedRow;
-	}
-	public void setSelectedRow(String[] selectedRow) {
-		this.selectedRow = selectedRow;
-	}
+	
 	public File getHeadImg() {
 		return headImg;
 	}

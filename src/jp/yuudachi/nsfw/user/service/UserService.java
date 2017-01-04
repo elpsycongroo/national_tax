@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
+import jp.yuudachi.core.exception.ServiceException;
 import jp.yuudachi.nsfw.user.entity.User;
 
 public interface UserService {
@@ -22,10 +23,12 @@ public interface UserService {
 	public User findObjectById(Serializable id);
 
 	// find list
-	public List<User> findObjects();
+	public List<User> findObjects() throws ServiceException;
 	//导出用户列表
 	public void exportExcel(List<User> userList,
 			ServletOutputStream outputStream);
 	//导入用户列表
 	public void importExcel(File userExcel, String userExcelFileName);
+	//根据账号名和用户ID查询用户
+	public List<User> findUserByAccountAndId(String id, String account);
 }

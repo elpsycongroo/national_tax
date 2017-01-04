@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import jp.yuudachi.core.exception.ServiceException;
 import jp.yuudachi.core.util.ExcelUtil;
 import jp.yuudachi.nsfw.user.dao.UserDao;
 import jp.yuudachi.nsfw.user.entity.User;
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findObjects() {
+	public List<User> findObjects() throws ServiceException {
 		return userDao.findObjects();
 	}
 
@@ -128,5 +129,10 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<User> findUserByAccountAndId(String id, String account) {
+		return userDao.findUserByAccountAndId(id,account);
 	}
 }

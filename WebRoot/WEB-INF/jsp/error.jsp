@@ -26,11 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<img src="<%=request.getContextPath() %>/images/common/error.jpg">
     <br>
-    <s:if test="exception.errorMsg != '' && exception.errorMsg != null">
-    	<s:property value="exception.errorMsg"/>
-    </s:if>
-    <s:else>
+    
     	操作失败！<s:property value="exception.message"/>
-    </s:else>
+    
   </body>
 </html>

@@ -14,9 +14,28 @@
 	<!-- 把主题配置成simple -->
 	<constant name="struts.ui.theme" value="simple" />
     
+    <!-- 配置全局结果及异常映射 -->
+	<package name="base-default" extends="struts-default">
+		<result-types>
+			<result-type name="error" class="jp.yuudachi.core.action.SysResultAction"></result-type>
+		</result-types>
+		<!-- 全局返回结果 -->
+		<global-results>
+			<result name="error" type="error">/WEB-INF/jsp/error.jsp</result>
+			<result name="sysError">/WEB-INF/jsp/error.jsp</result>
+			<result name="input">/WEB-INF/jsp/error.jsp</result>
+		</global-results>
+		<!-- 全局异常映射 -->
+		<global-exception-mappings>
+			<exception-mapping result="sysError" exception="jp.yuudachi.core.exception.SysException"></exception-mapping>
+			<exception-mapping result="input" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+	</package>
 
     <!-- Add packages here -->
 	<include file="jp/yuudachi/test/conf/test-struts.xml"></include>
 	<!-- 用户管理Struts配置文件 -->
 	<include file="jp/yuudachi/nsfw/user/conf/user-struts.xml"></include>
+	
+	
 </struts>
