@@ -36,6 +36,7 @@
 	<include file="jp/yuudachi/test/conf/test-struts.xml"></include>
 	<!-- 用户管理Struts配置文件 -->
 	<include file="jp/yuudachi/nsfw/user/conf/user-struts.xml"></include>
-	
+	<!-- 角色管理Struts配置文件 -->
+	<include file="jp/yuudachi/nsfw/role/conf/role-struts.xml"></include>
 	
 </struts>

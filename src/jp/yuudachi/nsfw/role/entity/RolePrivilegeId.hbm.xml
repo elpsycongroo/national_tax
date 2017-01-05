@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="jp.yuudachi.nsfw.role.entity.RolePrivilege" table="role_privilege">
+		<composite-id name="id" class="jp.yuudachi.nsfw.role.entity.RolePrivilegeId">
+			<key-many-to-one name="role" class="jp.yuudachi.nsfw.role.entity.Role" lazy="false">
+				<column name="role_id" not-null="true"></column>
+			</key-many-to-one>
+			<key-property name="code" type="java.lang.String">
+				<column name="code" length="20"></column>
+			</key-property>
+		</composite-id>
+	</class>
+</hibernate-mapping>
