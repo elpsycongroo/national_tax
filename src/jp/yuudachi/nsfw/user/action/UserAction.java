@@ -1,13 +1,10 @@
 package jp.yuudachi.nsfw.user.action;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,12 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import jp.yuudachi.core.action.BaseAction;
-import jp.yuudachi.core.exception.ActionException;
-import jp.yuudachi.core.exception.ServiceException;
 import jp.yuudachi.nsfw.user.entity.User;
 import jp.yuudachi.nsfw.user.service.UserService;
-
-import com.opensymphony.xwork2.ActionSupport;
 
 public class UserAction extends BaseAction {
 	
