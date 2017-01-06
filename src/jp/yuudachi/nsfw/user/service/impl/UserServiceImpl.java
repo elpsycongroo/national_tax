@@ -20,8 +20,11 @@ import org.springframework.stereotype.Service;
 
 import jp.yuudachi.core.exception.ServiceException;
 import jp.yuudachi.core.util.ExcelUtil;
+import jp.yuudachi.nsfw.role.entity.Role;
 import jp.yuudachi.nsfw.user.dao.UserDao;
 import jp.yuudachi.nsfw.user.entity.User;
+import jp.yuudachi.nsfw.user.entity.UserRole;
+import jp.yuudachi.nsfw.user.entity.UserRoleId;
 import jp.yuudachi.nsfw.user.service.UserService;
 
 /**
@@ -134,5 +137,38 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findUserByAccountAndId(String id, String account) {
 		return userDao.findUserByAccountAndId(id,account);
+	}
+
+	@Override
+	public void saveUserAndRole(User user, String... roleIds) {
+		//1.保存用户
+		save(user);
+		//2.保存用户对应的角色
+		if(roleIds != null){
+			for(String roleId : roleIds){
+				//关于new Role(roleId):这里只需要roleId 将其包装为role对象即可 无需查询数据库
+				userDao.saveUserRole(new UserRole(new UserRoleId(new Role(roleId),user.getId())));
+			}
+		}
+	}
+
+	@Override
+	public void updateUserAndRole(User user, String... roleIds) {
+		//1.根据用户删除该用户的所有角色
+		userDao.deleteUserRoleByUserId(user.getId());
+		//2.更新用户
+		update(user);
+		//3.保存用户的角色
+		if(roleIds != null){
+			for(String roleId : roleIds){
+				//关于new Role(roleId):这里只需要roleId 将其包装为role对象即可 无需查询数据库
+				userDao.saveUserRole(new UserRole(new UserRoleId(new Role(roleId),user.getId())));
+			}
+		}
+	}
+
+	@Override
+	public List<UserRole> getUserRolesByUserId(String id) {
+		return userDao.getUserRolesByUserId(id);
 	}
 }
