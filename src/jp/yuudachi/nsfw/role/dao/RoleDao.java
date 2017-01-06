@@ -5,4 +5,6 @@ import jp.yuudachi.nsfw.role.entity.Role;
 
 public interface RoleDao extends BaseDao<Role> {
 
+	void deleteRolePrivilegeByRoleId(String roleId);
+
 }

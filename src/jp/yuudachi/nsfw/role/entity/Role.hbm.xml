@@ -14,7 +14,8 @@
 		<property name="state" type="java.lang.String">
 			<column name="state" length="1" />
 		</property>
-		<set name="rolePrivileges" inverse="true" lazy="true">
+		<!-- 级联 保存权限信息 -->
+		<set name="rolePrivileges" inverse="true" lazy="false" cascade="save-update,delete">
 			<key>
 				<column name="role_id"></column>
 			</key>

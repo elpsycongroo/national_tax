@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import jp.yuudachi.core.dao.BaseDaoImpl;
 import jp.yuudachi.nsfw.user.dao.UserDao;
 import jp.yuudachi.nsfw.user.entity.User;
+import jp.yuudachi.nsfw.user.entity.UserRole;
 
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
@@ -20,6 +21,27 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		}
 		Query query = getSession().createQuery(hql);
 		query.setParameter(0, account);
+		return query.list();
+	}
+
+	@Override
+	public void saveUserRole(UserRole userRole) {
+		getHibernateTemplate().save(userRole);
+	}
+
+	@Override
+	public void deleteUserRoleByUserId(String id) {
+		//delete from user_role where user_id = id
+		Query query = getSession().createQuery("DELETE FROM UserRole WHERE id.userId=?");
+		query.setParameter(0,id);
+		query.executeUpdate();
+	}
+
+	@Override
+	public List<UserRole> getUserRolesByUserId(String id) {
+		//select role_id form user_role where user_id = id
+		Query query = getSession().createQuery("FROM UserRole WHERE id.userId=?");
+		query.setParameter(0,id);
 		return query.list();
 	}
 

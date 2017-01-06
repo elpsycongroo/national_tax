@@ -1,21 +1,19 @@
-package jp.yuudachi.nsfw.role.entity;
+package jp.yuudachi.nsfw.user.entity;
 
 import java.io.Serializable;
 
-/**
- * 联合主键类
- * @author Administrator
- *
- */
-public class RolePrivilegeId implements Serializable{
-	
-	private String code;
+import jp.yuudachi.nsfw.role.entity.Role;
+
+public class UserRoleId implements Serializable {
+
 	private Role role;
-	public String getCode() {
-		return code;
+	private String userId;
+	
+	public UserRoleId(Role role, String userId) {
+		this.role = role;
+		this.userId = userId;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public UserRoleId() {
 	}
 	public Role getRole() {
 		return role;
@@ -23,19 +21,18 @@ public class RolePrivilegeId implements Serializable{
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public RolePrivilegeId(Role role,String code) {
-		super();
-		this.code = code;
-		this.role = role;
+	public String getUserId() {
+		return userId;
 	}
-	public RolePrivilegeId() {
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 	@Override
@@ -46,19 +43,18 @@ public class RolePrivilegeId implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RolePrivilegeId other = (RolePrivilegeId) obj;
-		if (code == null) {
-			if (other.code != null)
-				return false;
-		} else if (!code.equals(other.code))
-			return false;
+		UserRoleId other = (UserRoleId) obj;
 		if (role == null) {
 			if (other.role != null)
 				return false;
 		} else if (!role.equals(other.role))
 			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
 		return true;
 	}
-	
 	
 }
