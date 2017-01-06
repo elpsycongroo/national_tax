@@ -5,7 +5,7 @@
     <title>角色管理</title>
 </head>
 <body class="rightBody">
-<form id="form" name="form" action="" method="post" enctype="multipart/form-data">
+<form id="form" name="form" action="${basePath }nsfw/role_add.action" method="post" enctype="multipart/form-data">
     <div class="p_d_1">
         <div class="p_d_1_1">
             <div class="content_info">
@@ -19,7 +19,7 @@
         <tr>
             <td class="tdBg" width="200px">角色权限：</td>
             <td>
-            	
+            	<s:checkboxlist list="#privilegeMap" name="privilegeIds"></s:checkboxlist>
             </td>
         </tr>
         <tr>

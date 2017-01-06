@@ -23,6 +23,11 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public void update(Role role) {
+		//避免hibernate在update的时候出现问题
+		//删除该角色对应的所有权限
+		//(方法二：新增一个逻辑标签来判断是否显示 此处略）
+		roleDao.deleteRolePrivilegeByRoleId(role.getRoleId());
+		//更新角色及其权限
 		roleDao.update(role);
 	}
 

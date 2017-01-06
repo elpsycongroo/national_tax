@@ -13,6 +13,24 @@
 		//prop jquery 1.6+建议使用
 		$("input[name=selectedRow]").prop("checked", $("#selAll").is(":checked"));		
 	}
+	//新增
+	function doAdd(){
+		//跳转后台action
+		document.forms[0].action = "${basepath}nsfw/role_addUI.action";
+		document.forms[0].submit();
+	}
+	function doEdit(id){
+		document.forms[0].action = "${basepath}nsfw/role_editUI.action?role.roleId="+id;
+		document.forms[0].submit();
+	}
+	function doDelete(id){
+		document.forms[0].action = "${basepath}nsfw/role_delete.action?role.roleId="+id;
+		document.forms[0].submit();
+	}
+	function doDeleteAll(){
+		document.forms[0].action = "${basepath}nsfw/role_deleteSelected.action";
+		document.forms[0].submit();
+	}
     </script>
 </head>
 <body class="rightBody">
@@ -41,20 +59,22 @@
                             <td width="80" align="center">状态</td>
                             <td width="120" align="center">操作</td>
                         </tr>
-                       		
-                            <tr  bgcolor="f8f8f8"  >
-                                <td align="center"><input type="checkbox" name="selectedRow" value=""/></td>
-                                <td align="center">  </td>
+                       	<s:iterator value="roleList" status="st">
+                            <tr <s:if test="#st.odd">bgcolor="f8f8f8"</s:if> >
+                                <td align="center"><input type="checkbox" name="selectedRow" value="<s:property value="roleId"/>"/></td>
+                                <td align="center"> <s:property value="name"/> </td>
                                 <td align="center">
-                                		
+                                	<s:iterator value="rolePrivileges">
+                                		<s:property value="#privilegeMap[id.code]"/>
+                                	</s:iterator>	
                                 </td>
-                                <td align="center"></td>
+                                <td align="center"><s:property value="state==1?'有效':'无效'"/></td>
                                 <td align="center">
-                                    <a href="javascript:doEdit()">编辑</a>
-                                    <a href="javascript:doDelete()">删除</a>
+                                    <a href="javascript:doEdit('<s:property value="roleId"/>')">编辑</a>
+                                    <a href="javascript:doDelete('<s:property value="roleId"/>')">删除</a>
                                 </td>
                             </tr>
-                           
+                         </s:iterator>
                     </table>
                 </div>
             </div>

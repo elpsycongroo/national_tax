@@ -23,7 +23,7 @@ public class RolePrivilegeId implements Serializable{
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public RolePrivilegeId(String code, Role role) {
+	public RolePrivilegeId(Role role,String code) {
 		super();
 		this.code = code;
 		this.role = role;
