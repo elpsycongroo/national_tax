@@ -38,5 +38,6 @@
 	<include file="jp/yuudachi/nsfw/user/conf/user-struts.xml"></include>
 	<!-- 角色管理Struts配置文件 -->
 	<include file="jp/yuudachi/nsfw/role/conf/role-struts.xml"></include>
-	
+	<!-- 包含系统首页的struts配置文件 -->
+	<include file="jp/yuudachi/home/conf/home-struts.xml"></include>
 </struts>
