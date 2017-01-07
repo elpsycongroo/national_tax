@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import jp.yuudachi.nsfw.info.dao.InfoDao;
 import jp.yuudachi.nsfw.info.entity.Info;
 import jp.yuudachi.nsfw.info.service.InfoService;
-
+@Service("infoService")
 public class InfoServiceImpl implements InfoService {
 
 	@Resource
