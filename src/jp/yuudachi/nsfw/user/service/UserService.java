@@ -38,4 +38,6 @@ public interface UserService {
 	public void updateUserAndRole(User user, String... roleIds);
 	//根据用户ID获取该用户对应的所有用户角色
 	public List<UserRole> getUserRolesByUserId(String id);
+	//根据用户账号密码查询用户列表
+	public List<User> findUserByAccountAndPwd(String account, String password);
 }

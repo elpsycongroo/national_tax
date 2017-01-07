@@ -75,11 +75,11 @@
             <div class="x_top" style="width:214px;"></div>
             <div class="sm">
 				<dl class="">
-                    <dt><a class="yh" href="#" target="mainFrame"><b></b>角色管理<s class="down"></s>
+                    <dt><a class="yh" href="${ctx }nsfw/role_listUI.action" target="mainFrame"><b></b>角色管理<s class="down"></s>
                     </a></dt>
                 </dl>
                 <dl class="">
-                    <dt><a class="yh" href="#" target="mainFrame"><b></b>用户管理<s class="down"></s>
+                    <dt><a class="yh" href="${ctx }nsfw/user_listUI.action" target="mainFrame"><b></b>用户管理<s class="down"></s>
                     </a></dt>
                 </dl>
 

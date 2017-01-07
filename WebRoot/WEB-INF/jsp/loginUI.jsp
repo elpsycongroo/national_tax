@@ -22,7 +22,10 @@ function setClean(){
 	document.getElementById("account").value = "";
 	document.getElementById("password").value = "";
 }
-
+//解决窗口框架嵌套的问题：
+if(window != window.parent){
+	window.parent.location.reload(true);
+}
 </script>
 <style type="text/css">
 html { overflow-y: hidden;  }
@@ -82,7 +85,7 @@ html { overflow-y: hidden;  }
           </tr>
           <tr>
           	<td height="13">&nbsp;
-            	<span><div height=20 valign="middle" style="padding-left: 18px"><font color="red" id="errMsg"></font></div></span>
+            	<span><div height=20 valign="middle" style="padding-left: 18px"><font color="red" id="errMsg"><s:property value="loginResult"/></font></div></span>
             </td>
           </tr>
           <tr>

@@ -40,4 +40,8 @@
 	<include file="jp/yuudachi/nsfw/role/conf/role-struts.xml"></include>
 	<!-- 包含系统首页的struts配置文件 -->
 	<include file="jp/yuudachi/home/conf/home-struts.xml"></include>
+	<!-- 包含纳税服务系统首页的struts配置文件 -->
+	<include file="jp/yuudachi/nsfw/home/conf/home-struts.xml"></include>
+	<!-- 包含登录的struts配置文件 -->
+	<include file="jp/yuudachi/login/conf/login-struts.xml"></include>
 </struts>

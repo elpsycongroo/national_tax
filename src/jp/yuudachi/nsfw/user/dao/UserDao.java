@@ -1,5 +1,6 @@
 package jp.yuudachi.nsfw.user.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jp.yuudachi.core.dao.BaseDao;
@@ -12,8 +13,10 @@ public interface UserDao extends BaseDao<User> {
 	//保存用户角色
 	void saveUserRole(UserRole userRole);
 	//根据用户ID删除用户的所有角色
-	void deleteUserRoleByUserId(String id);
+	void deleteUserRoleByUserId(Serializable id);
 	//根据用户ID获取用户的所有角色
 	List<UserRole> getUserRolesByUserId(String id);
+	//根据用户账号密码查询用户列表
+	List<User> findUserByAccountAndPwd(String account, String password);
 
 }

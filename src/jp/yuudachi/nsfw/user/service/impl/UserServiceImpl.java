@@ -53,6 +53,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(Serializable id) {
 		userDao.delete(id);
+		//删除用户对应的所有权限
+		userDao.deleteUserRoleByUserId(id);
 	}
 
 	@Override
@@ -170,5 +172,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserRole> getUserRolesByUserId(String id) {
 		return userDao.getUserRolesByUserId(id);
+	}
+
+	@Override
+	public List<User> findUserByAccountAndPwd(String account, String password) {
+		return userDao.findUserByAccountAndPwd(account,password);
 	}
 }
