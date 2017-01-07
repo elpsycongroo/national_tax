@@ -37,14 +37,17 @@
         <tr>
             <td class="tdBg" width="200px">创建人：</td>
             <td>
-            
+            	<s:property value="#session.SYS_USER.name" />
+            	<s:hidden name="info.creator" /><%-- 不允许更改创建人的值 不设置value --%>
             </td>
             <td class="tdBg" width="200px">创建时间：</td>
             <td>
-            
+            	<s:date name="info.createTime" format="yyyy-MM-dd MM:mm" />
+             	<s:hidden name="info.createTime" />
             </td>
         </tr>
     </table>
+    
     <s:hidden name="info.infoId"/>
     <s:hidden name="info.state"/>
     <div class="tc mt20">

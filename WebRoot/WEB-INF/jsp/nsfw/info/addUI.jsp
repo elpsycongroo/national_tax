@@ -37,15 +37,18 @@
         <tr>
             <td class="tdBg" width="200px">创建人：</td>
             <td>
-            
+            	<s:property value="#session.SYS_USER.name" />
+            	<s:hidden name="info.creator" value="%{#session.SYS_USER.name}" />
             </td>
             <td class="tdBg" width="200px">创建时间：</td>
             <td>
-             
+             	<s:date name="info.createTime" format="yyyy-MM-dd MM:mm" />
+             	<s:hidden name="info.createTime" />
             </td>
         </tr>
     </table>
-    
+    <!-- 默认信息状态为发布  -->
+    <s:hidden name="info.state" value="1"/>
     <div class="tc mt20">
         <input type="submit" class="btnB2" value="保存" />
         &nbsp;&nbsp;&nbsp;&nbsp;
