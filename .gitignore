@@ -63,3 +63,6 @@ $RECYCLE.BIN/
 *.lnk
 
 /upload
+*.classpath
+*.prefs
+WebRoot/WEB-INF/classes/struts.xml
