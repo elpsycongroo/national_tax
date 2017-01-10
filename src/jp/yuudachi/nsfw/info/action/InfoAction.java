@@ -1,11 +1,16 @@
 package jp.yuudachi.nsfw.info.action;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
 
@@ -99,7 +104,27 @@ public class InfoAction extends BaseAction {
 		}
 		return "list";
 	}
-
+	
+	//异步发布信息
+	public void publicInfo(){
+		try {
+			if(info != null){
+				//1.更新信息状态
+				Info temp = infoService.findObjectById(info.getInfoId());
+				temp.setState(info.getState());
+				infoService.update(temp);
+				//输出更新结果
+				HttpServletResponse response = ServletActionContext.getResponse();
+				response.setContentType("text/html");
+				ServletOutputStream outputStream = response.getOutputStream();
+				outputStream.write("更新状态成功".getBytes("utf-8"));
+				outputStream.close();			
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public InfoService getInfoService() {
 		return infoService;
 	}

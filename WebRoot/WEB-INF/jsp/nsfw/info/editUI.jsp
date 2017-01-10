@@ -3,7 +3,13 @@
 <head>
     <%@include file="/common/header.jsp"%>
     <title>信息发布管理</title>
-
+	<script type="text/javascript" charset="utf-8" src="${basePath }js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${basePath }js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="${basePath }js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+    	window.UEDITOR_HOME_URL = "${basePath }js/ueditor/";
+    	var ue = UE.getEditor('editor');
+    </script>
     <script>
     	
     </script>

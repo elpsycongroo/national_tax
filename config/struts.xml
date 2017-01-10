@@ -8,7 +8,7 @@
     <!-- 禁用动态方法访问 -->
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
 	<!-- 配置成开发模式 -->
-	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="false" />
 	<!-- 配置拓展名为action -->
 	<constant name="struts.action.extention" value="action" />
 	<!-- 把主题配置成simple -->
