@@ -7,20 +7,22 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import jp.yuudachi.core.service.impl.BaseServiceImpl;
 import jp.yuudachi.nsfw.role.dao.RoleDao;
 import jp.yuudachi.nsfw.role.entity.Role;
 import jp.yuudachi.nsfw.role.service.RoleService;
+
 @Service("roleService")
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
+
+	private RoleDao roleDao;
 
 	@Resource
-	private RoleDao roleDao;
-	
-	@Override
-	public void save(Role role) {
-		roleDao.save(role);
+	public void setRoleDao(RoleDao roleDao) {
+		super.setBaseDao(roleDao);
+		this.roleDao = roleDao;
 	}
-
+	
 	@Override
 	public void update(Role role) {
 		//避免hibernate在update的时候出现问题
@@ -29,21 +31,6 @@ public class RoleServiceImpl implements RoleService {
 		roleDao.deleteRolePrivilegeByRoleId(role.getRoleId());
 		//更新角色及其权限
 		roleDao.update(role);
-	}
-
-	@Override
-	public void delete(Serializable id) {
-		roleDao.delete(id);
-	}
-
-	@Override
-	public Role findObjectById(Serializable id) {
-		return roleDao.findObjectById(id);
-	}
-
-	@Override
-	public List<Role> findObjects() {
-		return roleDao.findObjects();
 	}
 
 }

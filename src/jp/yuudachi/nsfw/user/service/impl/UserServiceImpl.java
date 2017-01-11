@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import jp.yuudachi.core.exception.ServiceException;
+import jp.yuudachi.core.service.impl.BaseServiceImpl;
 import jp.yuudachi.core.util.ExcelUtil;
 import jp.yuudachi.nsfw.role.entity.Role;
 import jp.yuudachi.nsfw.user.dao.UserDao;
@@ -35,20 +36,16 @@ import jp.yuudachi.nsfw.user.service.UserService;
  */
 
 @Service("userService")
-public class UserServiceImpl implements UserService {
-
-	@Resource
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+	
 	private UserDao userDao;
-
-	@Override
-	public void save(User user) {
-		userDao.save(user);
+	
+	@Resource
+	public void setUserDao(UserDao userDao) {
+		super.setBaseDao(userDao);
+		this.userDao = userDao;
 	}
 
-	@Override
-	public void update(User user) {
-		userDao.update(user);
-	}
 
 	@Override
 	public void delete(Serializable id) {
@@ -56,17 +53,7 @@ public class UserServiceImpl implements UserService {
 		//删除用户对应的所有权限
 		userDao.deleteUserRoleByUserId(id);
 	}
-
-	@Override
-	public User findObjectById(Serializable id) {
-		return userDao.findObjectById(id);
-	}
-
-	@Override
-	public List<User> findObjects() throws ServiceException {
-		return userDao.findObjects();
-	}
-
+	
 	@Override
 	public void exportExcel(List<User> userList,
 			ServletOutputStream outputStream) {

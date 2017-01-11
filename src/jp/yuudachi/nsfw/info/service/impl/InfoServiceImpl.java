@@ -1,44 +1,21 @@
 package jp.yuudachi.nsfw.info.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import jp.yuudachi.core.service.impl.BaseServiceImpl;
 import jp.yuudachi.nsfw.info.dao.InfoDao;
 import jp.yuudachi.nsfw.info.entity.Info;
 import jp.yuudachi.nsfw.info.service.InfoService;
 @Service("infoService")
-public class InfoServiceImpl implements InfoService {
+public class InfoServiceImpl extends BaseServiceImpl<Info> implements InfoService {
+
+	private InfoDao infoDao;
 
 	@Resource
-	private InfoDao infoDao;
-	
-	@Override
-	public void save(Info info) {
-		infoDao.save(info);
+	public void setInfoDao(InfoDao infoDao) {
+		super.setBaseDao(infoDao);
+		this.infoDao = infoDao;
 	}
-
-	@Override
-	public void update(Info info) {
-		infoDao.update(info);
-	}
-
-	@Override
-	public void delete(Serializable id) {
-		infoDao.delete(id);
-	}
-
-	@Override
-	public Info findObjectById(Serializable id) {
-		return infoDao.findObjectById(id);
-	}
-
-	@Override
-	public List<Info> findObjects() {
-		return infoDao.findObjects();
-	}
-
 }

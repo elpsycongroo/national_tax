@@ -66,3 +66,6 @@ $RECYCLE.BIN/
 *.classpath
 *.prefs
 WebRoot/WEB-INF/classes/struts.xml
+*.myhibernatedata
+*.project
+src/jp/yuudachi/test/

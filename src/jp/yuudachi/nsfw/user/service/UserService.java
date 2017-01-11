@@ -7,24 +7,12 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 
 import jp.yuudachi.core.exception.ServiceException;
+import jp.yuudachi.core.service.BaseService;
 import jp.yuudachi.nsfw.user.entity.User;
 import jp.yuudachi.nsfw.user.entity.UserRole;
 
-public interface UserService {
-	// save
-	public void save(User entity);
+public interface UserService extends BaseService<User>{
 
-	// update
-	public void update(User entity);
-
-	// delete by id
-	public void delete(Serializable id);
-
-	// find by id
-	public User findObjectById(Serializable id);
-
-	// find list
-	public List<User> findObjects() throws ServiceException;
 	//导出用户列表
 	public void exportExcel(List<User> userList,
 			ServletOutputStream outputStream);
