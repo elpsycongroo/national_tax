@@ -1,7 +1,9 @@
 package jp.yuudachi.nsfw.info.action;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -10,12 +12,14 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
 
 import jp.yuudachi.core.action.BaseAction;
 import jp.yuudachi.core.constant.Constant;
+import jp.yuudachi.core.util.QueryHelper;
 import jp.yuudachi.nsfw.info.entity.Info;
 import jp.yuudachi.nsfw.info.service.InfoService;
 
@@ -26,14 +30,28 @@ public class InfoAction extends BaseAction {
 	private List<Info> infoList;
 	private Info info;
 	private String[] privilegeIds;
+	private String strTitle;
 
 	// 列表页面
 	public String listUI() throws Exception {
 		// 加载分类集合
 		ActionContext.getContext().getContextMap()
-				.put("infoTypeMap", Constant.PRIVILEGE_MAP);
+				.put("infoTypeMap", Info.INFO_TYPE_MAP);
+		QueryHelper queryHelper = new QueryHelper(Info.class, "i");
+		List<Object> parameters = new ArrayList<Object>();
 		try {
-			infoList = infoService.findObjects();
+			if(info != null){
+				if(StringUtils.isNotBlank(info.getTitle())){
+					info.setTitle(URLDecoder.decode(info.getTitle(), "utf-8"));
+					//按照条件查询
+					queryHelper.addCondition("i.title like ?", "%" + info.getTitle() +"%");
+				}
+				queryHelper.addCondition("i.state = ?", "1");
+			}
+			//根据创建时间 降序
+			queryHelper.addOrderByProperty("i.createTime", QueryHelper.ORDER_BY_DESC);
+			System.out.println(queryHelper.getQueryListHql());
+			infoList = infoService.findObjects(queryHelper);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -44,7 +62,7 @@ public class InfoAction extends BaseAction {
 	public String addUI() {
 		// 加载分类集合
 		ActionContext.getContext().getContextMap()
-				.put("infoTypeMap", Constant.PRIVILEGE_MAP);
+				.put("infoTypeMap", Info.INFO_TYPE_MAP);
 		//给jsp页面传时间 这里会报空指针（没有实例化）
 		//实例化
 		info = new Info();
@@ -58,6 +76,8 @@ public class InfoAction extends BaseAction {
 			if (info != null) {
 				infoService.save(info);
 			}
+			//避免把info带到title栏中污染搜索标题
+			info = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,8 +88,10 @@ public class InfoAction extends BaseAction {
 	public String editUI() {
 		// 加载分类集合
 		ActionContext.getContext().getContextMap()
-				.put("infoTypeMap", Constant.PRIVILEGE_MAP);
+				.put("infoTypeMap", Info.INFO_TYPE_MAP);
 		if (info != null && info.getInfoId() != null) {
+			//解决查询条件被覆盖的问题 用另外一个变量保存
+			strTitle = info.getTitle();
 			info = infoService.findObjectById(info.getInfoId());
 		}
 		return "editUI";
@@ -90,6 +112,7 @@ public class InfoAction extends BaseAction {
 	// 删除
 	public String delete() {
 		if (info != null && info.getInfoId() != null) {
+			strTitle = info.getTitle();
 			infoService.delete(info.getInfoId());
 		}
 		return "list";
@@ -98,6 +121,7 @@ public class InfoAction extends BaseAction {
 	// 批量删除
 	public String deleteSelected() {
 		if (selectedRow != null) {
+			strTitle = info.getTitle();
 			for (String id : selectedRow) {
 				infoService.delete(id);
 			}
@@ -155,6 +179,14 @@ public class InfoAction extends BaseAction {
 
 	public void setPrivilegeIds(String[] privilegeIds) {
 		this.privilegeIds = privilegeIds;
+	}
+
+	public String getStrTitle() {
+		return strTitle;
+	}
+
+	public void setStrTitle(String strTitle) {
+		this.strTitle = strTitle;
 	}
 
 }

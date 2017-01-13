@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 
-import jp.yuudachi.core.dao.BaseDaoImpl;
+import jp.yuudachi.core.dao.impl.BaseDaoImpl;
 import jp.yuudachi.nsfw.user.dao.UserDao;
 import jp.yuudachi.nsfw.user.entity.User;
 import jp.yuudachi.nsfw.user.entity.UserRole;

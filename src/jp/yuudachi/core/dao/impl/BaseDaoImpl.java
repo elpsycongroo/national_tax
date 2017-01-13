@@ -1,8 +1,11 @@
-package jp.yuudachi.core.dao;
+package jp.yuudachi.core.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+
+import jp.yuudachi.core.dao.BaseDao;
+import jp.yuudachi.core.util.QueryHelper;
 
 
 import org.hibernate.Query;
@@ -18,6 +21,18 @@ public abstract class BaseDaoImpl<T> extends HibernateDaoSupport implements
 		clazz = (Class<T>) pt.getActualTypeArguments()[0];
 	}
 	
+	@Override
+	public List<T> findObjects(QueryHelper queryHelper) {
+		Query query = getSession().createQuery(queryHelper.getQueryListHql());
+		List<Object> parameters = queryHelper.getParameters();
+		if(parameters != null){
+			for(int i = 0; i < parameters.size(); i++){
+				query.setParameter(i, parameters.get(i));
+			}
+		}
+		return query.list();
+	}
+
 	@Override
 	public void save(T entity) {
 		getHibernateTemplate().save(entity);
@@ -41,6 +56,17 @@ public abstract class BaseDaoImpl<T> extends HibernateDaoSupport implements
 	@Override
 	public List<T> findObjects() {
 		Query query = getSession().createQuery("FROM " + clazz.getSimpleName());
+		return query.list();
+	}
+	
+	@Override
+	public List<T> findObjects(String hql,List<Object> parameters) {
+		Query query = getSession().createQuery(hql);
+		if(parameters != null){
+			for(int i = 0; i < parameters.size(); i++){
+				query.setParameter(i, parameters.get(i));
+			}
+		}
 		return query.list();
 	}
 

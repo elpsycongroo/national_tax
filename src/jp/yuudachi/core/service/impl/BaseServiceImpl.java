@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.yuudachi.core.dao.BaseDao;
 import jp.yuudachi.core.service.BaseService;
+import jp.yuudachi.core.util.QueryHelper;
 
 public class BaseServiceImpl<T> implements BaseService<T> {
 
@@ -37,6 +38,16 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public List<T> findObjects() {
 		return baseDao.findObjects();
+	}
+
+	@Override
+	public List<T> findObjects(String hql, List<Object> parameters) {
+		return baseDao.findObjects(hql, parameters);
+	}
+
+	@Override
+	public List<T> findObjects(QueryHelper queryHelper) {
+		return baseDao.findObjects(queryHelper);
 	}
 
 

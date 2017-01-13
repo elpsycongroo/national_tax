@@ -29,6 +29,10 @@
 		document.forms[0].action = "${basepath}nsfw/info_deleteSelected.action";
 		document.forms[0].submit();
 	}
+	function doSearch(){
+		document.forms[0].action = "${basepath}nsfw/info_listUI.action";
+		document.forms[0].submit();
+	}
 	//异步发布信息
 	function doPublic(infoId,state){
 		//1.更新信息状态

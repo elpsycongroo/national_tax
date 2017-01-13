@@ -3,6 +3,9 @@ package jp.yuudachi.core.service;
 import java.io.Serializable;
 import java.util.List;
 
+import jp.yuudachi.core.util.QueryHelper;
+import jp.yuudachi.nsfw.info.entity.Info;
+
 public interface BaseService<T> {
 
 	// save
@@ -19,5 +22,11 @@ public interface BaseService<T> {
 
 	// find list
 	public List<T> findObjects();
+	
+	@Deprecated
+	//条件查询实体列表
+	List<T> findObjects(String hql, List<Object> parameters);
 
+	//根据条件查询试题列表--queryHelper
+	List<T> findObjects(QueryHelper queryHelper);
 }

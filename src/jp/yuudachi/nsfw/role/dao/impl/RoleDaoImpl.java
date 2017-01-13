@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 
-import jp.yuudachi.core.dao.BaseDaoImpl;
+import jp.yuudachi.core.dao.impl.BaseDaoImpl;
 import jp.yuudachi.nsfw.role.dao.RoleDao;
 import jp.yuudachi.nsfw.role.entity.Role;
 

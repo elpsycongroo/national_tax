@@ -56,6 +56,8 @@
     
     <s:hidden name="info.infoId"/>
     <s:hidden name="info.state"/>
+    <!-- 暂存查询条件值 -->
+    <s:hidden name="strTitle"/>
     <div class="tc mt20">
         <input type="submit" class="btnB2" value="保存" />
         &nbsp;&nbsp;&nbsp;&nbsp;

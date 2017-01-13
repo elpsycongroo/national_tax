@@ -69,3 +69,4 @@ WebRoot/WEB-INF/classes/struts.xml
 *.myhibernatedata
 *.project
 src/jp/yuudachi/test/
+/test
