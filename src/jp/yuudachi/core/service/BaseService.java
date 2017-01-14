@@ -3,6 +3,7 @@ package jp.yuudachi.core.service;
 import java.io.Serializable;
 import java.util.List;
 
+import jp.yuudachi.core.page.PageResult;
 import jp.yuudachi.core.util.QueryHelper;
 import jp.yuudachi.nsfw.info.entity.Info;
 
@@ -29,4 +30,7 @@ public interface BaseService<T> {
 
 	//根据条件查询试题列表--queryHelper
 	List<T> findObjects(QueryHelper queryHelper);
+	
+	//分页条件查询
+	PageResult getPageResult(QueryHelper queryHelper, int pageNo, int pageSize);
 }

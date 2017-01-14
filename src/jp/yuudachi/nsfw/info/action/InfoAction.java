@@ -1,11 +1,9 @@
 package jp.yuudachi.nsfw.info.action;
 
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,7 +16,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 
 import jp.yuudachi.core.action.BaseAction;
-import jp.yuudachi.core.constant.Constant;
+import jp.yuudachi.core.page.PageResult;
 import jp.yuudachi.core.util.QueryHelper;
 import jp.yuudachi.nsfw.info.entity.Info;
 import jp.yuudachi.nsfw.info.service.InfoService;
@@ -31,6 +29,7 @@ public class InfoAction extends BaseAction {
 	private Info info;
 	private String[] privilegeIds;
 	private String strTitle;
+
 
 	// 列表页面
 	public String listUI() throws Exception {
@@ -46,14 +45,12 @@ public class InfoAction extends BaseAction {
 					//按照条件查询
 					queryHelper.addCondition("i.title like ?", "%" + info.getTitle() +"%");
 				}
-				queryHelper.addCondition("i.state = ?", "1");
 			}
 			//根据创建时间 降序
 			queryHelper.addOrderByProperty("i.createTime", QueryHelper.ORDER_BY_DESC);
-			System.out.println(queryHelper.getQueryListHql());
-			infoList = infoService.findObjects(queryHelper);
+			pageResult = infoService.getPageResult(queryHelper,getPageNo(),getPageSize());
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			e.printStackTrace();
 		}
 		return "listUI";
 	}
@@ -188,5 +185,7 @@ public class InfoAction extends BaseAction {
 	public void setStrTitle(String strTitle) {
 		this.strTitle = strTitle;
 	}
+
+	
 
 }

@@ -3,6 +3,7 @@ package jp.yuudachi.core.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import jp.yuudachi.core.page.PageResult;
 import jp.yuudachi.core.util.QueryHelper;
 
 
@@ -21,4 +22,7 @@ public interface BaseDao<T> {
 	List<T> findObjects(String hql, List<Object> parameters);
 	//条件查询实体列表--QueryHelper
 	public List<T> findObjects(QueryHelper queryHelper);
+	//分页查询实体列表
+	public PageResult getPageResult(QueryHelper queryHelper, int pageNo,
+			int pageSize);
 }

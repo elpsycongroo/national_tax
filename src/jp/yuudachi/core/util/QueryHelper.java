@@ -67,6 +67,11 @@ public class QueryHelper {
 		return fromClause + whereClause + orderByClause;
 	}
 	
+	//查询统计数的hql语句
+	public String getQueryCountListHql(){	
+		return " SELECT COUNT(*) " + fromClause + whereClause;
+	}
+	
 	//hql语句中？对应的查询条件值的集合
 	public List<Object> getParameters(){
 		/**

@@ -1,6 +1,8 @@
 package jp.yuudachi.nsfw.user.action;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +17,8 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 
 import jp.yuudachi.core.action.BaseAction;
+import jp.yuudachi.core.util.QueryHelper;
+import jp.yuudachi.nsfw.info.entity.Info;
 import jp.yuudachi.nsfw.role.service.RoleService;
 import jp.yuudachi.nsfw.user.entity.User;
 import jp.yuudachi.nsfw.user.entity.UserRole;
@@ -26,7 +30,6 @@ public class UserAction extends BaseAction {
 	private UserService userService;
 	@Resource
 	private RoleService roleService;
-	private List<User> userList;
 	private User user;
 	private File headImg;
 	private String headImgContentType;
@@ -35,15 +38,28 @@ public class UserAction extends BaseAction {
 	private String userExcelContentType;
 	private String userExcelFileName;
 	private String[] userRoleIds;
+	private String strName;
 
 	// 列表页面
 	public String listUI() throws Exception {
+		QueryHelper queryHelper = new QueryHelper(User.class, "u");
+		List<Object> parameters = new ArrayList<Object>();
 		try {
-			userList = userService.findObjects();
+			if (user != null) {
+				if (StringUtils.isNotBlank(user.getName())) {
+					user.setName(URLDecoder.decode(user.getName(), "utf-8"));
+					// 按照条件查询
+					queryHelper.addCondition("u.name like ?",
+							"%" + user.getName() + "%");
+				}
+			}
+			pageResult = userService.getPageResult(queryHelper, getPageNo(),
+					getPageSize());
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			e.printStackTrace();
 		}
 		return "listUI";
+
 	}
 
 	// 跳转到新增页面
@@ -87,12 +103,14 @@ public class UserAction extends BaseAction {
 		ActionContext.getContext().getContextMap()
 				.put("roleList", roleService.findObjects());
 		if (user != null && user.getId() != null) {
+			strName = user.getName();
 			user = userService.findObjectById(user.getId());
-			//处理角色回显
-			List<UserRole> list = userService.getUserRolesByUserId(user.getId());
-			if(list != null && list.size() >0){
+			// 处理角色回显
+			List<UserRole> list = userService
+					.getUserRolesByUserId(user.getId());
+			if (list != null && list.size() > 0) {
 				userRoleIds = new String[list.size()];
-				for(int i = 0;i < list.size(); i ++){
+				for (int i = 0; i < list.size(); i++) {
 					userRoleIds[i] = list.get(i).getId().getRole().getRoleId();
 				}
 			}
@@ -149,14 +167,13 @@ public class UserAction extends BaseAction {
 	public void exportExcel() {
 		try {
 			// 1.查找用户列表
-			userList = userService.findObjects();
 			// 2.输出
 			HttpServletResponse response = ServletActionContext.getResponse();
 			response.setContentType("application/x-excel");
 			response.setHeader("Content-Disposition", "attachment;filename="
 					+ new String("用户列表.xls".getBytes(), "ISO-8859-1"));
 			ServletOutputStream outputStream = response.getOutputStream();
-			userService.exportExcel(userList, outputStream);
+			userService.exportExcel(userService.findObjects(), outputStream);
 			if (outputStream != null) {
 				outputStream.close();
 			}
@@ -209,14 +226,6 @@ public class UserAction extends BaseAction {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	public List<User> getUserList() {
-		return userList;
-	}
-
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
 	}
 
 	public User getUser() {
@@ -289,5 +298,13 @@ public class UserAction extends BaseAction {
 
 	public void setUserRoleIds(String[] userRoleIds) {
 		this.userRoleIds = userRoleIds;
+	}
+
+	public String getStrName() {
+		return strName;
+	}
+
+	public void setStrName(String strName) {
+		this.strName = strName;
 	}
 }

@@ -11,6 +11,7 @@
 				<param name="actionName">info_listUI</param>
 				<param name="info.title">${strTitle}</param>
 				<param name="encode">true</param>
+				<param name="pageNo">${pageNo}</param>
 			</result>
 			
 		</action>

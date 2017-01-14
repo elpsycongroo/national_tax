@@ -12,6 +12,8 @@
     		<result name="{1}">/WEB-INF/jsp/nsfw/role/{1}.jsp</result>
     		<result name="list" type="redirectAction">
     			<param name="actionName">role_listUI</param>
+    			<param name="role.name">${strName}</param>
+    			<param name="encode">true</param>
     		</result>
     	</action>
     </package>
