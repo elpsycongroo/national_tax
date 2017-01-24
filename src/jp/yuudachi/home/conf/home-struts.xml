@@ -13,5 +13,12 @@
     		<result name="home">/WEB-INF/jsp/home/home.jsp</result>
     	</action>
     </package>
+    <package name="sysHomeJson-action" namespace="/sys" extends="json-default">
+    	<action name="home_getUserJsonByFrame" class="jp.yuudachi.home.action.HomeAction" method="getUserJsonByFrame">
+    		<result type="json">
+    			<param name="root">returnMap</param>
+    		</result>
+    	</action>
+    </package>
 	
 </struts>

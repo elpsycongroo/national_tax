@@ -65,21 +65,23 @@
         </tr>
         <tr>
             <td class="tdBg">投诉内容：</td>
-            <td><s:property value="complain.compContent"/></td>
+            <td><s:property value="complain.compContent" escape="false"/></td>
         </tr>
         <tr><td colspan="2" align="center">受理信息</td></tr>
         <tr>
             <td colspan="2">
-            	
-            		<fieldset style="border: solid 1px #c0c0c0;margin-top:5px;"><legend style="color:green;font-weight:bold;">回复1&nbsp;</legend>
+            	<s:iterator value="complain.complainReplies" status="st">
+            		<fieldset style="border: solid 1px #c0c0c0;margin-top:5px;"><legend style="color:green;font-weight:bold;">回复<s:property value="#st.count"/>&nbsp;</legend>
 						<div style="width:100%; text-align:center;color:#ccc;maring-top:5px;">
-						回复部门：xxx&nbsp;&nbsp;
-						回复人：xxx&nbsp;&nbsp;
-						回复时间：xxx
+						回复部门：<s:property value="replyDept"/>&nbsp;&nbsp;
+						回复人：<s:property value="replyer"/>&nbsp;&nbsp;
+						回复时间：<s:date name="replyTime" format="yyyy-MM-dd HH:mm"/>
 						</div>
-						<div style="width:100%;maring-top:10px;font-size:13px;padding-left:5px;">xxx</div>
+						<div style="width:100%;maring-top:10px;font-size:13px;padding-left:5px;">
+							<s:property value="replyContent" />
+						</div>
 					</fieldset>
-            	
+            	</s:iterator>
             </td>
         </tr>
         <tr><td colspan="2" align="center">受理操作</td></tr>
