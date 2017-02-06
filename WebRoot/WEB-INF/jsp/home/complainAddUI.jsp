@@ -15,41 +15,64 @@
     </script>
     <script>
     //根据部门查询部门下的用户列表
-    	function doSelectDept(){
-  			//1.获取部门
-  			var dept = $("#toCompDept option:selected").val();
-  			if(dept != ""){
-  				//2.根据部门查询列表
-  				$.ajax({
-  					url:"${basePath}sys/home_getUserJsonByFrame.action",
-  					data:{"dept":dept},
-  					type:"post",
-  					dataType:"json",//返回数据类型
-  					success:function(data){
-  						//2.1根据列表设置到下拉框中 
-  						if(data != null && data != "" && data != undefined){
-  							if("success" == data.msg){
-  								var $toCompName = $("#toCompName");
-  								$toCompName.empty();
-  								//迭代
-  								$.each(data.userList,function(index,user){
-  									$toCompName.append("<option value='" + user.name + "'>" + user.name + "</option>");
-  								});
-  							} else{
-  								alert("获取被投诉人列表失败");
-  							}
-  						}else{
+    function doSelectDept(){
+  		//1.获取部门
+  		var dept = $("#toCompDept option:selected").val();
+  		if(dept != ""){
+  			//2.根据部门查询列表
+  			$.ajax({
+  				url:"${basePath}sys/home_getUserJsonByFrame.action",
+  				data:{"dept":dept},
+  				type:"post",
+  				dataType:"json",//返回数据类型
+  				success:function(data){
+  					//2.1根据列表设置到下拉框中 
+  					if(data != null && data != "" && data != undefined){
+  						if("success" == data.msg){
+  							var $toCompName = $("#toCompName");
+  							$toCompName.empty();
+  							//迭代
+  							$.each(data.userList,function(index,user){
+  								$toCompName.append("<option value='" + user.name + "'>" + user.name + "</option>");
+  							});
+  						} else{
   							alert("获取被投诉人列表失败");
   						}
-  					},
-  					error:function(){alert("获取被投诉人列表 失败");}
-  				}); 				
-  			}else{
-  				//清空被投诉人列表下拉框
-  				$("#toCompName").empty();
-  			}
-  				
-    	}
+  					}else{
+  						alert("获取被投诉人列表失败");
+  					}
+  				},
+  				error:function(){alert("获取被投诉人列表 失败");}
+  			}); 				
+  		}else{
+  			//清空被投诉人列表下拉框
+  			$("#toCompName").empty();
+  		}
+  			
+    }
+    function doSubmit(){
+    	//1.提交表单
+    	$.ajax({
+    		url:"${basePath}sys/home_complainAdd.action",
+    		data:$("#form").serialize(),
+    		type:"post",
+    		async:false,
+    		success:function(msg){
+    			if("success" == msg){
+    				//2.提示用户投诉成功
+    				alert("投诉成功！");
+    				//3.刷新父窗口
+    				window.opener.parent.location.reload(true);
+    				//4.关闭当前窗口
+    				window.close();
+    			}else{
+    				alert("投诉失败！");
+    			}
+    		},
+    		error:function(){alert("投诉失败！");}
+    	});
+    	
+    }	
     </script>
 </head>
 <body>
@@ -67,7 +90,7 @@
         </tr>
         <tr>
             <td class="tdBg">被投诉人部门：</td>
-            <td><s:select id="toCompDept" name="user.dept" list="#{'请选择':'请选择','部门A':'部门A','部门B':'部门B' }" onchange="doSelectDept()"/></td>
+            <td><s:select id="toCompDept" name="comp.toCompDept" list="#{'请选择':'请选择','部门A':'部门A','部门B':'部门B' }" onchange="doSelectDept()"/></td>
         </tr>
         <tr>
             <td class="tdBg">被投诉人姓名：</td>
@@ -83,13 +106,15 @@
         </tr>
         <tr>
             <td class="tdBg">是否匿名投诉：</td>
-            <td><s:radio name="comp.isNm" list="#{'0':'非匿名投诉','1':'匿名投诉' }" value="0"/></td>
+            <td><s:radio name="comp.isAmonyous" list="#{'false':'非匿名投诉','true':'匿名投诉' }" value="false"/></td>
         </tr>
        
     </table>
-
+	<s:hidden name="comp.compName" value="%{#session.SYS_USER.name}"/>
+	<s:hidden name="comp.compCompany" value="%{#session.SYS_USER.dept}"/>
+	<s:hidden name="comp.compMobile" value="%{#session.SYS_USER.mobile}"/>
     <div class="tc mt20">
-        <input type="button" class="btnB2" value="保存" />
+        <input type="button" class="btnB2" value="保存" onclick="doSubmit()"/>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <input type="button"  onclick="javascript:window.close()" class="btnB2" value="关闭" />
     </div>

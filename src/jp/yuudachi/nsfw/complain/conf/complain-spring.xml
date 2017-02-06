@@ -14,4 +14,29 @@
 	<!-- 扫描 -->
 	<context:component-scan base-package="jp.yuudachi.nsfw.complain.service.impl"></context:component-scan>
     
+    <!-- quartz -->
+    <!-- 1.制定任务信息bean -->
+    <bean id="complainJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<!--设置执行对象  -->
+		<property name="targetObject" ref="complainService"></property>
+		<!--设置执行对象中对应的执行方法  -->
+		<property name="targetMethod" value="autoDeal"></property>
+		<!--是否可以同步执行  -->
+		<property name="concurrent" value="false"></property>
+	</bean>
+    <!-- 2.制定任务执行时机(执行触发器 )-->
+    <bean id="complainCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<!-- 设置任务详细信息 -->
+    	<property name="jobDetail" ref="complainJobDetail"></property>
+    	<!-- 设置任务执行时间点 CronExpression -->
+    	<property name="cronExpression" value="10 * 15 L * ?"></property>
+    </bean>
+    <!-- 3.设置任务调度工厂bean -->
+    <bean id="complainScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    	<property name="triggers">
+    		<list>
+    			<ref bean="complainCronTrigger"/>
+    		</list>
+    	</property>
+    </bean>
 </beans>

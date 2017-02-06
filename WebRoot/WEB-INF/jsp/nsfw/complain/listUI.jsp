@@ -64,7 +64,9 @@
                                 <td align="center"><s:date name="compTime" format="yyyy-MM-dd HH:mm"/></td>
                                 <td align="center"><s:property value="#complainStateMap[state]"/></td>
                                 <td align="center">
-                                    <a href="javascript:doDeal('<s:property value='compId'/>')">受理</a>
+                                	<s:if test="state!=2">
+                                    	<a href="javascript:doDeal('<s:property value='compId'/>')">受理</a>
+									</s:if>                                
                                 </td>
                             </tr>
                         </s:iterator>

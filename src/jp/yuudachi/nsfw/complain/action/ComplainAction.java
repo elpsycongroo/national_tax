@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+import com.baidu.ueditor.define.State;
 import com.opensymphony.xwork2.ActionContext;
 
 import jp.yuudachi.core.action.BaseAction;
@@ -26,6 +27,8 @@ public class ComplainAction extends BaseAction {
 	private String startTime;
 	private String endTime;
 	private ComplainReply reply;
+	private String strTitle;
+	private String strState;
 	
 	//列表
 	public String listUI(){
@@ -35,11 +38,11 @@ public class ComplainAction extends BaseAction {
 			QueryHelper queryHelper = new QueryHelper(Complain.class, "c");
 			if(StringUtils.isNotBlank(startTime)){//起始时间之后的数据
 				startTime = URLDecoder.decode(startTime, "utf-8");
-				queryHelper.addCondition("c.compTime >= ?", DateUtils.parseDate(startTime+":00", "yyyy-MM-dd HH:mm:ss"));
+				queryHelper.addCondition("c.compTime >= ?", DateUtils.parseDate(startTime, "yyyy-MM-dd HH:mm"));
 			}
 			if(StringUtils.isNotBlank(endTime)){//结束时间之前的数据
 				startTime = URLDecoder.decode(endTime, "utf-8");
-				queryHelper.addCondition("c.compTime <= ?", DateUtils.parseDate(endTime+":59", "yyyy-MM-dd HH:mm:ss"));
+				queryHelper.addCondition("c.compTime <= ?", DateUtils.parseDate(endTime, "yyyy-MM-dd HH:mm"));
 			}
 			if(complain != null){
 				if(StringUtils.isNotBlank(complain.getState())){
@@ -68,6 +71,8 @@ public class ComplainAction extends BaseAction {
 		ActionContext.getContext().getContextMap().put("complainStateMap", Complain.COMPLAIN_STATE_MAP);
 		if(complain != null){
 			complain = complainService.findObjectById(complain.getCompId());
+			strTitle = complain.getCompTitle();
+			strState = complain.getState();
 		}
 		return "dealUI";
 	}
@@ -121,6 +126,22 @@ public class ComplainAction extends BaseAction {
 
 	public void setReply(ComplainReply reply) {
 		this.reply = reply;
+	}
+
+	public String getStrTitle() {
+		return strTitle;
+	}
+
+	public void setStrTitle(String strTitle) {
+		this.strTitle = strTitle;
+	}
+
+	public String getStrState() {
+		return strState;
+	}
+
+	public void setStrState(String strState) {
+		this.strState = strState;
 	}
 	
 }
