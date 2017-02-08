@@ -75,3 +75,4 @@ src/jp/yuudachi/nsfw/complain/conf/quartz-spring.xml
 src/jp/yuudachi/nsfw/complain/MyTimer.java
 src/jp/yuudachi/nsfw/complain/QuartzTask.java
 src/jp/yuudachi/nsfw/complain/MyTimerTask.java
+src/jp/yuudachi/nsfw/complain/conf/quartz.xml

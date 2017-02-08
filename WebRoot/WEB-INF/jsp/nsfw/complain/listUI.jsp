@@ -17,6 +17,11 @@
 		document.forms[0].action = "${basePath}nsfw/complain_dealUI.action?complain.compId="+compId;
 		document.forms[0].submit();
 	}
+	//投诉统计
+	function doAnnualStatistic(){
+		document.forms[0].action = "${basePath}nsfw/complain_annualStatisticChartUI.action";
+		document.forms[0].submit();
+	}
     </script>
 </head>
 <body class="rightBody">

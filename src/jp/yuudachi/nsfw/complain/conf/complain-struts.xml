@@ -7,7 +7,7 @@
    
     <!-- Add packages here -->
     <!-- 需要继承你全局定义的包 -->
-    <package name="complain-action" namespace="/nsfw" extends="base-default">
+    <package name="complain-action" namespace="/nsfw" extends="base-default,json-default">
     	<action name="complain_*" class="jp.yuudachi.nsfw.complain.action.ComplainAction" method="{1}">
     		<result name="{1}">/WEB-INF/jsp/nsfw/complain/{1}.jsp</result>
     		<result name="list" type="redirectAction">
@@ -18,6 +18,9 @@
     			<param name="endTime">${endTime}</param>
     			<param name="pageNo">${pageNo}</param>
     			<param name="encode">true</param>
+    		</result>
+    		<result type="json" name="annualStatisticData">
+    			<param name="root">statisticMap</param>
     		</result>
     	</action>
     </package>

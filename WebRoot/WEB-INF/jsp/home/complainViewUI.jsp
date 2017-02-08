@@ -13,61 +13,81 @@
         <div class="vp_d_1_1">
             <div class="content_info">
     <div class="c_crumbs"><div><b></b><strong>工作主页</strong>&nbsp;-&nbsp;投诉信息</div></div>
-    <div class="tableH2">投诉详细信息<span style="color:red;">()</span></div>
+    <div class="tableH2">投诉详细信息<span style="color:red;"><s:property value="#complainStateMap[comp.state]"/></span></div>
     <table id="baseInfo" width="100%" align="center" class="list" border="0" cellpadding="0" cellspacing="0"  >
     	<tr><td colspan="2" align="center">投诉人信息</td></tr>
         <tr>
             <td class="tdBg" width="250px">是否匿名投诉：</td>
-            <td></td>
+            <td><s:property value="comp.isAmonyous?'匿名投诉':'非匿名投诉'"/></td>
         </tr>
         <tr>
             <td class="tdBg">投诉人单位：</td>
-            <td></td>
+            <td>
+            	<s:if test="!comp.isAmonyous">	
+            		<s:property value="comp.compCompany"/>
+            	</s:if>
+            	<s:else>匿名</s:else>
+            </td>
         </tr>
         <tr>
             <td class="tdBg">投诉人姓名：</td>
-            <td></td>
+            <td>
+            	<s:if test="!comp.isAmonyous">
+            		<s:property value="comp.compName"/>
+            	</s:if>
+            	<s:else>匿名</s:else>
+            </td>
         </tr>
         <tr>
             <td class="tdBg">投诉人手机：</td>
             <td>
+            	<s:if test="!comp.isAmonyous">
+            		<s:property value="comp.compMobile"/>
+            	</s:if>
+            	<s:elseif test="%{comp.compMobile.length()>10}">
+            		<s:property value="%{comp.compMobile.substring(0,3) + '****' + comp.compMobile.substring(7)}" />
+            	</s:elseif>
             </td>
         </tr>
         <tr><td colspan="2" align="center">投诉信息</td></tr>
         <tr>
             <td class="tdBg">投诉时间：</td>
-            <td></td>
+            <td><s:date name="comp.compTime" format="yyyy-MM-dd HH:mm"/></td>
         </tr>
         <tr>
             <td class="tdBg">被投诉部门：</td>
-            <td></td>
+            <td><s:property value="comp.toCompDept"/></td>
         </tr>
         <tr>
             <td class="tdBg">被投诉人：</td>
-            <td></td>
+            <td><s:property value="comp.toCompName"/></td>
         </tr>
         <tr>
             <td class="tdBg">投诉标题：</td>
-            <td></td>
+            <td><s:property value="comp.compTitle"/></td>
         </tr>
         <tr>
             <td class="tdBg">投诉内容：</td>
-            <td></td>
+            <td><s:property value="comp.compContent" escape="false"/></td>
         </tr>
         <tr><td colspan="2" align="center">受理信息</td></tr>
         <tr>
             <td colspan="2">
-            <fieldset style="border: solid 1px #c0c0c0;margin-top:5px;"><legend style="color:green;font-weight:bold;">回复1&nbsp;</legend>
+            	<s:iterator value="comp.complainReplies" status="st">
+            		<fieldset style="border: solid 1px #c0c0c0;margin-top:5px;"><legend style="color:green;font-weight:bold;">回复<s:property value="#st.count"/>&nbsp;</legend>
 						<div style="width:100%; text-align:center;color:#ccc;maring-top:5px;">
-						回复部门：xxx&nbsp;&nbsp;
-						回复人：xxx&nbsp;&nbsp;
-						回复时间：2014-09-17
+						回复部门：<s:property value="replyDept"/>&nbsp;&nbsp;
+						回复人：<s:property value="replyer"/>&nbsp;&nbsp;
+						回复时间：<s:date name="replyTime" format="yyyy-MM-dd HH:mm"/>
 						</div>
-						<div style="width:100%;maring-top:10px;font-size:13px;padding-left:5px;"><s:property value="replyContent"/></div>
+						<div style="width:100%;maring-top:10px;font-size:13px;padding-left:5px;">
+							<s:property value="replyContent" />
+						</div>
 					</fieldset>
+            	</s:iterator>
             </td>
         </tr>
-    </table>
+       </table>
     </div></div>
     <div style="width:1%;float:left;">&nbsp;&nbsp;&nbsp;&nbsp;</div>
     </div>
